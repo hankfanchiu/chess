@@ -4,6 +4,7 @@ require_relative "board"
 
 class Display
   include Cursorable
+  
   attr_accessor :message
 
   def initialize(board)

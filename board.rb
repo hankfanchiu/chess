@@ -1,10 +1,4 @@
-require_relative 'rook'
-require_relative 'bishop'
-require_relative 'knight'
-require_relative 'queen'
-require_relative 'king'
-require_relative 'pawn'
-require_relative 'nil_piece'
+require_relative './pieces/require_file'
 
 class Board
   attr_accessor :grid, :black_value, :white_value

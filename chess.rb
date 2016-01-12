@@ -1,7 +1,7 @@
 require_relative 'board'
 require_relative 'display'
-require_relative 'human_player'
-require_relative 'computer_player'
+require_relative './players/human_player'
+require_relative './players/computer_player'
 
 class ChessGame
   attr_reader :display
