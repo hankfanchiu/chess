@@ -8,6 +8,7 @@ class HumanPlayer
 
   def prompt
     start, end_pos = nil, nil
+
     until @board.valid_move?(start, end_pos)
       start = human_input
       start = human_input until piece_at?(start) && my_piece?(start)
@@ -19,15 +20,17 @@ class HumanPlayer
   end
 
   def human_input
-    pos = nil
-    until pos
+    position = nil
+
+    until position
       @display.render
       puts
       notify_check if @board.in_check?(@color)
       puts "#{@color.to_s.capitalize}'s turn now."
-      pos = @display.get_input
+      position = @display.get_input
     end
-    pos
+
+    position
   end
 
   def notify_check

@@ -13,7 +13,8 @@ class ChessGame
     @display = Display.new(@board)
     @player1 = create_player(player1_type, :black)
     @player2 = create_player(player2_type, :white)
-    @current_player, @previous_player = @player1, @player2
+    @current_player = @player1
+    @previous_player = @player2
     @max_turns = MAX_TURNS
   end
 
@@ -32,7 +33,9 @@ class ChessGame
       rotate_player!
       @max_turns -= 1
     end
+
     @display.render
+
     puts "Game over! #{@current_player.color.to_s.capitalize} loses!"
   end
 
@@ -42,8 +45,9 @@ class ChessGame
   end
 
   def over?
-    @board.checkmate?(@current_player.color) ||
-      @board.stalemate?(@current_player.color)
+    current_color = @current_player.color
+
+    @board.checkmate?(current_color) || @board.stalemate?(current_color)
   end
 
   def rotate_player!

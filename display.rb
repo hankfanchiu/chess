@@ -4,7 +4,7 @@ require_relative "board"
 
 class Display
   include Cursorable
-  
+
   attr_accessor :message
 
   def initialize(board)
@@ -14,12 +14,14 @@ class Display
   end
 
   def build_grid
-    @board.grid.map.with_index { |row, i| build_row(row, i) }
+    grid = @board.grid
+
+    grid.map.with_index { |row, row_index| build_row(row, row_index) }
   end
 
-  def build_row(row, i)
-    row.map.with_index do |piece, j|
-      color_options = colors_for(i, j)
+  def build_row(row, row_index)
+    row.map.with_index do |piece, piece_index|
+      color_options = colors_for(row_index, piece_index)
       piece.to_s.colorize(color_options)
     end
   end

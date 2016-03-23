@@ -55,15 +55,18 @@ module Cursorable
     STDIN.raw!
 
     input = STDIN.getc.chr
-    if input == "\e" then
+
+    if input == "\e"
       input << STDIN.read_nonblock(3) rescue nil
       input << STDIN.read_nonblock(2) rescue nil
     end
-  ensure
-    STDIN.echo = true
-    STDIN.cooked!
 
-    return input
+    ensure
+      STDIN.echo = true
+      STDIN.cooked!
+
+      return input
+    end
   end
 
   def update_pos(diff)

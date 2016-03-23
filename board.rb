@@ -9,16 +9,21 @@ class Board
 
   def initialize(original = true)
     @grid = Array.new(8) { Array.new(8) { NilPiece.new } }
-    @black_value, @white_value = 0, 0
+    @black_value = 0
+    @white_value = 0
+
     populate_board if original
   end
 
   def dup
     duped_board = self.class.new(false)
+
     @grid.flatten.each do |piece|
-      next if piece.color.nil?
+      next unless piece.color
+
       duped_board[piece.position] = piece.dup(duped_board)
     end
+
     duped_board
   end
 
@@ -61,11 +66,14 @@ class Board
 
   def update_values
     @white_value, @black_value = 0, 0
+
     @grid.flatten.each do |piece|
+      value = MATERIAL_VALUES[piece.to_sym]
+
       if piece.color == :white
-        @white_value += MATERIAL_VALUES[piece.to_sym]
+        @white_value += value
       elsif piece.color == :black
-        @black_value += MATERIAL_VALUES[piece.to_sym]
+        @black_value += value
       end
     end
   end
@@ -94,10 +102,13 @@ class Board
 
   def in_check?(color)
     king_position = find_king(color)
+
     @grid.flatten.each do |piece|
       next unless piece.enemy_of?(color)
+
       return true if piece.possible_move_set.include?(king_position)
     end
+
     false
   end
 
@@ -112,8 +123,10 @@ class Board
   def no_moves_left?(color)
     @grid.flatten.each do |piece|
       next unless piece.teammate_of?(color)
+
       return false unless piece.moves.empty?
     end
+    
     true
   end
 

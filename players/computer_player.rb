@@ -21,22 +21,26 @@ class ComputerPlayer
   end
 
   def generate_possibilities
-    possibilities = Hash.new
+    possibilities = {}
+
     @board.grid.flatten.each do |piece|
-      next if piece.color != @color
-      unless piece.moves.empty?
-        possibilities[piece.position] = piece.moves
-      end
+      next unless piece.color == @color
+
+      moves = piece.moves
+      possibilities[piece.position] = moves unless moves.empty?
     end
+
     possibilities
   end
 
   def generate_enemy_positions(possibilities)
-    killable_enemies = Hash.new
+    killable_enemies = {}
+
     possibilities.each do |start, search_positions|
       enemies = seek_enemies(search_positions)
       killable_enemies[start] = enemies unless enemies.empty?
     end
+
     killable_enemies
   end
 
@@ -45,6 +49,8 @@ class ComputerPlayer
   end
 
   def enemy?(move)
-    @board[move].color != @color && @board[move].color != nil
+    potential_enemy_color = @board[move].color
+
+    potential_enemy_color && potential_enemy_color != @color
   end
 end
